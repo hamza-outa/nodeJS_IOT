@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>IOT site</title>
+  </head>
+
+  <body style="background-color:#8E7575">
+    <h1>send data</h1>
+    <form id="manualData">
+        <label>sensor type</label>
+        <input type="number" id="sensID" name="sensorID">
+        <label>waarde</label>
+        <input type="number" id="sensValue" name="sensorValue">
+        <button id="manual">send</button>
+    </form>
+
+    <h1>filter tabel</h1>
+    <form id="filterTable">
+      <label>welke sensoren</label>
+      <select id="sensChoice" name="sensChoice">
+        <option value=3>beiden</option>
+        <option value=1>temperatuur</option>
+        <option value=2>vochtigheid</option>
+      </select>
+      <select id="orderChoice" name="orderChoice">
+        <option value="desc">datum (nieuw-oud)</option>
+        <option value="asc">datum (oud-nieuw)</option>
+        <option value="desc">waarde (hoog-laag)</option>
+        <option value="asc">waarde (laag-hoog)</option>
+      </select>
+      <br><br>
+      <label>datum range</label>
+      <input type="date" name="date1" id="date1" default="test">
+      <input type="date" name="date2" id="date2">
+      <button id="filter">send</button>
+    </form>
+
+    <input type="checkbox" id="boxAllData" onclick="getAllDataForTable()">
+
+    <table border="1px solid black">
+      <thead>
+        <tr>
+          <th>sensor ID</th>
+          <th>waarde</th>
+          <th>IP adress</th>
+          <th>datum</th>
+        </tr>
+      </thead>
+      <tbody id="tableBody"></tbody>
+    </table>
+
+
+  </body>
+  <script src="app.js"></script>
+</html>
