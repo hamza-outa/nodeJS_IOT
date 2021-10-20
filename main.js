@@ -54,23 +54,25 @@ app.get("/allSensorData", async (req,res) => {
 app.get("/sensorDataFiltered",jsonParser, async(req, res) => {
   try {
     const querObj = url.parse(req.url,true).query
-  	console.log(querObj)
+  	//console.log(querObj)
+
+    //const test = await SensData.find({_id:{$gte:"616dd4fb4908c75572fccdf2",$lte:"616dd56472c63e8bc13548ee"}})
+    //console.log(test)
     if (querObj.filter == "date") {
       const data = await SensData.find({sensorID:querObj.sensorID,datum:{$gte:querObj.dateStart,$lte:querObj.dateEnd}})
                                  .sort({datum:querObj.sort})
-                                 .limit(Number(querObj.aantal))
                                  .exec()  //desc = nieuw naar oud  en asc = oud naar nieuw
       res.status(200).send(data)
     }
     else if (querObj.filter == "value") {
       const data = await SensData.find({sensorID:querObj.sensorID,datum:{$gte:querObj.dateStart,$lte:querObj.dateEnd}})
                                  .sort({waarde:querObj.sort})
-                                 .limit(Number(querObj.aantal))
                                  .exec()  //desc = nieuw naar oud  en asc = oud naar nieuw
       res.status(200).send(data)
     }
 
   } catch (e) {
+    console.log(e)
     res.status(400).send(e)
   }
 

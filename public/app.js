@@ -2,19 +2,23 @@ const sensorForm = document.querySelector("#manualData")
 const sensorID = document.querySelector("#sensID")
 const waarde = document.querySelector("#sensValue")
 const filterForm = document.querySelector("#filterTable")
+//var dblocation = undefined
 
 
 
-
-async function sendFilterParams(){
-  fetch('/sensorDataFiltered' + new URLSearchParams({
+async function sendFilterParams(callback){
+  fetch('/sensorDataFiltered?' + new URLSearchParams({
     sensorID: filterForm.sensChoice.value,
-    filter: 2,
+    filter: "date",
     dateStart: Date.parse(filterForm.date1.value),
     dateEnd: Date.parse(filterForm.date2.value),
-    sort: filterForm.orderChoice.value,
-    aantal: 2,
-}))
+    sort: filterForm.orderChoice.value
+  })).then((response) => {
+    response.json().then((data) => {
+      callback(data)
+    })
+  })
+
 }
 
 function filterTable(e){
@@ -28,6 +32,31 @@ function filterTable(e){
     console.log("it worked")
   }*/
 
+  var checkbox = document.getElementById("boxAllData")
+  const table = document.getElementById("tableBody")
+
+  sendFilterParams((data) => {
+    console.log(data)
+    //dblocation = data[data.length - 1]
+    table.innerHTML = ''
+    data.forEach((item) => {
+      let row = table.insertRow()
+      let sensorID = row.insertCell(0)
+      sensorID.innerHTML = item.sensorID
+
+      let waarde = row.insertCell(1)
+      waarde.innerHTML = item.waarde
+
+      let IPAdress = row.insertCell(2)
+      IPAdress.innerHTML = item.IP
+
+      let datum = row.insertCell(3)
+      //console.time("date/replace")
+      datum.innerHTML =  String(new Date(item.datum)).substring(0,25)
+      //console.timeEnd("date/replace")
+
+    })
+  })
 
 }
 
@@ -42,6 +71,7 @@ async function sendData(data){
   })
   const content = await rawResponse.json()
   console.log(content)
+  console.log(content._id)
 }
 
 function getAllData(callback) {
@@ -65,6 +95,7 @@ function submitManualData(e){
   // })
 }
 
+//gets data for table. -probs just remove last part or string from constant value[]-
 function getAllDataForTable(){
   var checkbox = document.getElementById("boxAllData")
   const table = document.getElementById("tableBody")
