@@ -2,17 +2,17 @@ const sensorForm = document.querySelector("#manualData")
 const sensorID = document.querySelector("#sensID")
 const waarde = document.querySelector("#sensValue")
 const filterForm = document.querySelector("#filterTable")
-//var dblocation = undefined
 
 
 
 async function sendFilterParams(callback){
+  let filter = filterForm.orderChoice.value.split("-")
   fetch('/sensorDataFiltered?' + new URLSearchParams({
     sensorID: filterForm.sensChoice.value,
-    filter: "date",
+    filter: filter[0],
     dateStart: Date.parse(filterForm.date1.value),
     dateEnd: Date.parse(filterForm.date2.value),
-    sort: filterForm.orderChoice.value
+    sort: filter[1]
   })).then((response) => {
     response.json().then((data) => {
       callback(data)
@@ -23,14 +23,6 @@ async function sendFilterParams(callback){
 
 function filterTable(e){
   e.preventDefault()
-  /*console.log(filterForm.sensChoice.value)
-  console.log(filterForm.orderChoice.value)
-  console.log(filterForm.date1.value)
-  console.log(filterForm.date2.value)
-  console.log(Date.parse(filterForm.date1.value))
-  if (filterForm.date1.value == "" && filterForm.date2.value == "" ) {
-    console.log("it worked")
-  }*/
 
   var checkbox = document.getElementById("boxAllData")
   const table = document.getElementById("tableBody")
@@ -39,7 +31,7 @@ function filterTable(e){
     console.log(data)
     //dblocation = data[data.length - 1]
     table.innerHTML = ''
-    data.forEach((item) => {
+    data.forEach( (item) => {
       let row = table.insertRow()
       let sensorID = row.insertCell(0)
       sensorID.innerHTML = item.sensorID
@@ -126,7 +118,6 @@ function getAllDataForTable(){
   }
 
 }
-// var time = new Date(1634389200000)
-// console.log(time.toLocaleString("nl-BE"))
+
 sensorForm.addEventListener("submit",submitManualData)
 filterForm.addEventListener("submit",filterTable)

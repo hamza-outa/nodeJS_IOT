@@ -24,10 +24,10 @@
         <option value=2>vochtigheid</option>
       </select>
       <select id="orderChoice" name="orderChoice">
-        <option value="desc">datum (nieuw-oud)</option>
-        <option value="asc">datum (oud-nieuw)</option>
-        <option value="desc">waarde (hoog-laag)</option>
-        <option value="asc">waarde (laag-hoog)</option>
+        <option value="datum-desc">datum (nieuw-oud)</option>
+        <option value="datum-asc">datum (oud-nieuw)</option>
+        <option value="waarde-desc">waarde (hoog-laag)</option>
+        <option value="waarde-asc">waarde (laag-hoog)</option>
       </select>
       <br><br>
       <label>datum range</label>
@@ -35,8 +35,6 @@
       <input type="date" name="date2" id="date2">
       <button id="filter">send</button>
     </form>
-
-    <input type="checkbox" id="boxAllData" onclick="getAllDataForTable()">
 
     <table border="1px solid black">
       <thead>

@@ -53,23 +53,37 @@ app.get("/allSensorData", async (req,res) => {
 //for sorting data in list and/or graph
 app.get("/sensorDataFiltered",jsonParser, async(req, res) => {
   try {
-    const querObj = url.parse(req.url,true).query
-  	//console.log(querObj)
+    const queryObj = url.parse(req.url,true).query
 
-    //const test = await SensData.find({_id:{$gte:"616dd4fb4908c75572fccdf2",$lte:"616dd56472c63e8bc13548ee"}})
-    //console.log(test)
-    if (querObj.filter == "date") {
-      const data = await SensData.find({sensorID:querObj.sensorID,datum:{$gte:querObj.dateStart,$lte:querObj.dateEnd}})
-                                 .sort({datum:querObj.sort})
+    //const test = await SensData.find({_id:{$gte:"616dd4fb4908c75572fccdf2",$lte:"616dd56472c63e8bc13548ee"}})//tussen objecten zoeken
+    //crieer object om te kunnen filteren op asc en desc alsook op waarde of datum
+    let sortby = {}
+    sortby[queryObj.filter] = queryObj.sort
+
+    //om te filteren op welke sensor
+    let arr = [0,0]
+    if (Number(queryObj.sensorID) == 3) {
+      arr[0] = 1
+      arr[1] = 2
+    }
+    else{
+      arr[0] = queryObj.sensorID
+    }
+
+
+    if (queryObj.dateStart == "NaN" || queryObj.dateEnd == "NaN") {
+      const data = await SensData.find({sensorID:{$in:[arr[0],arr[1]]}})
+                                 .sort(sortby)
                                  .exec()  //desc = nieuw naar oud  en asc = oud naar nieuw
       res.status(200).send(data)
     }
-    else if (querObj.filter == "value") {
-      const data = await SensData.find({sensorID:querObj.sensorID,datum:{$gte:querObj.dateStart,$lte:querObj.dateEnd}})
-                                 .sort({waarde:querObj.sort})
+    else{
+      const data = await SensData.find({sensorID:{$in:[arr[0],arr[1]]},datum:{$gte:queryObj.dateStart,$lte:queryObj.dateEnd}})
+                                 .sort(sortby)
                                  .exec()  //desc = nieuw naar oud  en asc = oud naar nieuw
       res.status(200).send(data)
     }
+
 
   } catch (e) {
     console.log(e)
