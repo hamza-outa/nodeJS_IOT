@@ -15,7 +15,7 @@ const sensDataSchema = new mongoose.Schema({
   },
 
   datum:{
-    type:Number
+    type:Date
   }
 
 })

@@ -43,7 +43,7 @@ app.post("/collector", jsonParser,async (req,res) => {
 //if client wants all data
 app.get("/allSensorData", async (req,res) => {
   try {
-    const data = await SensData.find({}).sort({waarde:"desc"})
+    const data = await SensData.find({}).sort({datum:"asc"})
     res.status(200).send(data)
   } catch (e) {
       res.status(400).send(e)

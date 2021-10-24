@@ -6,6 +6,9 @@
   </head>
 
   <body style="background-color:#8E7575">
+    <canvas id="myChart" style="width:100%;max-width:1500px;background-color:white"></canvas>
+    <input type="checkbox" id="test" onclick="standardChart()">
+
     <h1>send data</h1>
     <form id="manualData">
         <label>sensor type</label>
@@ -51,4 +54,5 @@
 
   </body>
   <script src="app.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
 </html>
