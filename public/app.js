@@ -146,24 +146,22 @@ function standardChart(){
   let tempData = []
   let humData = []
   let datum = []
-  let a = 0, b = 0, c = 0
+  let a = 0, b = 0
   getAllData((data) => {
     data.forEach((item) => {
-      datum[a] = item.datum
       if(item.sensorID == 1){
-        tempData[b] = item.waarde
-        b++
+        tempData[a] = item.waarde
+        datum[a] = item.datum
+        a++
       }
       else{
-        humData[c] = item.waarde
-        c++
+        humData[b] = item.waarde
+        datum[b] = item.datum
+        b++
       }
-      a++
+
     })
 
-    console.log(tempData)
-    console.log(humData)
-    console.log(datum)
     drawChart(datum,tempData,humData)
 
   })
