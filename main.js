@@ -92,6 +92,25 @@ app.get("/sensorDataFiltered",jsonParser, async(req, res) => {
 
 })
 
+app.get("/chartDataFiltered", jsonParser, async(req,res) => {
+  try {
+    const queryObj = url.parse(req.url,true).query
+
+    if (queryObj.dateStart == "NaN" || queryObj.dateEnd == "NaN") {
+      res.status(400).send("noDates")
+    }
+    else{
+      const data = await SensData.find({datum:{$gte:queryObj.dateStart,$lte:queryObj.dateEnd}})
+                                 .sort("asc")
+                                 .exec()  //desc = nieuw naar oud  en asc = oud naar nieuw
+      res.status(200).send(data)
+    }
+
+  } catch (e) {
+    console.log(e)
+    res.status(400).send(e)
+  }
+})
 
 app.listen(port, () => {
     console.log("server is up on port " + port)

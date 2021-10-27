@@ -2,7 +2,7 @@ const sensorForm = document.querySelector("#manualData")
 const sensorID = document.querySelector("#sensID")
 const waarde = document.querySelector("#sensValue")
 const filterForm = document.querySelector("#filterTable")
-
+const chartForm = document.querySelector("#formChart")
 
 
 async function sendFilterParams(callback){
@@ -89,10 +89,6 @@ function submitManualData(e){
 
 }
 
-
-sensorForm.addEventListener("submit",submitManualData)
-filterForm.addEventListener("submit",filterTable)
-
 function drawChart(dates,tempData,humData){
 
   var ctx = document.getElementById("myChart").getContext('2d');
@@ -167,3 +163,43 @@ function standardChart(){
   })
 
 }
+
+async function filterChart(e){
+  e.preventDefault()
+  let tempData = []
+  let humData = []
+  let datum = []
+  let a = 0, b = 0
+
+  rawData = await fetch('/chartDataFiltered?' + new URLSearchParams({
+    dateStart: Date.parse(chartForm.chartDate1.value),
+    dateEnd: Date.parse(chartForm.chartDate2.value)
+  }))
+  if (!rawData.ok) {
+    alert("je moet een begin en eind datum ingeven")
+  }
+  else{
+    data = await rawData.json()
+    console.log(data)
+    data.forEach((item) => {
+      if(item.sensorID == 1){
+        tempData[a] = item.waarde
+        datum[a] = item.datum
+        a++
+      }
+      else{
+        humData[b] = item.waarde
+        datum[b] = item.datum
+        b++
+      }
+
+    })
+    drawChart(datum,tempData,humData)
+  }
+
+
+}
+
+sensorForm.addEventListener("submit",submitManualData)
+filterForm.addEventListener("submit",filterTable)
+chartForm.addEventListener("submit",filterChart)
