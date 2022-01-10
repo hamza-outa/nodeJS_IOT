@@ -3,7 +3,8 @@ const sensorID = document.querySelector("#sensID")
 const waarde = document.querySelector("#sensValue")
 const filterForm = document.querySelector("#filterTable")
 const chartForm = document.querySelector("#formChart")
-
+document.getElementById("resume").addEventListener("click", initChart)
+window.onload = initChart()
 
 async function sendFilterParams(callback){
   let filter = filterForm.orderChoice.value.split("-")
@@ -166,6 +167,7 @@ function standardChart(){
 
 async function filterChart(e){
   e.preventDefault()
+  clearInterval(standardChart)
   let tempData = []
   let humData = []
   let datum = []
@@ -198,6 +200,14 @@ async function filterChart(e){
   }
 
 
+}
+
+function initChart(){
+  standardChart()
+  setInterval(standardChart,180000)
+}
+function test(){
+  alert("heyoo")
 }
 
 sensorForm.addEventListener("submit",submitManualData)

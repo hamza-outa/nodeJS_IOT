@@ -2,13 +2,16 @@
   "dependencies": {
     "body-parser": "^1.19.0",
     "chart.js": "^3.6.0",
+    "crypto-js": "^4.1.1",
     "env-cmd": "^10.1.0",
     "express": "^4.17.1",
+    "helmet": "^4.6.0",
     "mongoose": "^6.0.9",
     "nodemon": "^2.0.13"
   },
   "scripts": {
     "dev": "env-cmd -f ./config/dev.env nodemon main.js",
+    "start": "node main.js",
     "deploy": "env-cmd -f ./config/deploy.env nodemon main.js"
   }
 }

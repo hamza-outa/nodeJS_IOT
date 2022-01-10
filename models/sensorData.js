@@ -30,6 +30,5 @@ sensDataSchema.methods.toJSON = function () {
   return dataObject
 }
 
-
 const SensData = mongoose.model("SensorData",sensDataSchema)
 module.exports = SensData

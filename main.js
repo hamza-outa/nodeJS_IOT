@@ -1,13 +1,25 @@
 var bodyParser = require("body-parser")
 const express = require("express")
-const http = require("http")
 const url = require("url")
 const path = require("path")
+const helmet = require("helmet")
 require("./db/mongoose")
 const SensData = require("./models/sensorData")
 
 const app = express()
 const port = process.env.PORT || 3000
+
+app.use(
+  helmet.contentSecurityPolicy({
+    useDefaults: true,
+    directives: {
+      defaultSrc: ["'self'"],
+      scriptSrc: ["'self'", "https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"],
+      objectSrc: ["'none'"],
+      upgradeInsecureRequests: [],
+    },
+  })
+)
 
 app.use(express.static(path.join(__dirname,'/public')))
 
